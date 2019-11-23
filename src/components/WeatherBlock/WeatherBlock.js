@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./WeatherBlock.scss";
 
-export default ({ weatherData, dataIsReady }) => {
+export default ({ weatherData, loading, error }) => {
   const temp = temp => {
     if (temp > 0) {
       return "+" + temp;
@@ -12,7 +12,7 @@ export default ({ weatherData, dataIsReady }) => {
 
   return (
     <div className="weather-wrapper">
-      {dataIsReady ? (
+      {weatherData && (
         <div className="weather">
           <div className="weather__title">{weatherData.location.name}</div>
 
@@ -77,9 +77,9 @@ export default ({ weatherData, dataIsReady }) => {
             </div>
           </div>
         </div>
-      ) : (
-        <div>Ошибка обработки запроса</div>
       )}
+      {error && <div>Ошибка обработки запроса</div>}
+      {loading && <div>Загрузка...</div>}
     </div>
   );
 };

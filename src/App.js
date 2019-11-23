@@ -6,20 +6,24 @@ import { apiKey } from "./api_key";
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
-  const [dataIsReady, setDataIsReady] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const searchLocation = location => {
-    setDataIsReady(false);
+    setLoading(true);
+    setWeatherData(null);
+    setError(false);
     fetch(
       `http://api.weatherstack.com/current?access_key=${apiKey}&query=${location}`
     )
       .then(res => res.json())
       .then(res => {
-        setWeatherData(res);
-        if (res.success === false) {
-          console.log("-->", "err");
+        if (res && res.success !== false) {
+          setWeatherData(res);
+          setLoading(false);
         } else {
-          setDataIsReady(true);
+          setError(true);
+          setLoading(false);
         }
       });
   };
@@ -29,7 +33,11 @@ function App() {
       <div className="container">
         <h1>Weather</h1>
         <Form searchLocation={searchLocation} />
-        <WeatherBlock weatherData={weatherData} dataIsReady={dataIsReady} />
+        <WeatherBlock
+          weatherData={weatherData}
+          loading={loading}
+          error={error}
+        />
       </div>
     </div>
   );
