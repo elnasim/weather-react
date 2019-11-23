@@ -8,11 +8,13 @@ function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
   const searchLocation = location => {
     setLoading(true);
     setWeatherData(null);
     setError(false);
+    setAnimate(false);
     fetch(
       `http://api.weatherstack.com/current?access_key=${apiKey}&query=${location}`
     )
@@ -21,6 +23,7 @@ function App() {
         if (res && res.success !== false) {
           setWeatherData(res);
           setLoading(false);
+          setAnimate(true);
         } else {
           setError(true);
           setLoading(false);
@@ -37,6 +40,7 @@ function App() {
           weatherData={weatherData}
           loading={loading}
           error={error}
+          animate={animate}
         />
       </div>
     </div>

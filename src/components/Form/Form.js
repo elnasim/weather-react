@@ -7,6 +7,7 @@ export default ({ searchLocation }) => {
   const changeLocation = e => {
     e.preventDefault();
     searchLocation(value);
+    setValue("");
   };
 
   return (
@@ -15,6 +16,8 @@ export default ({ searchLocation }) => {
         type="text"
         className="form__input"
         onChange={e => setValue(e.target.value)}
+        value={value}
+        placeholder="Введите местоположение..."
       />
       <button className="form__btn">Найти</button>
     </form>
