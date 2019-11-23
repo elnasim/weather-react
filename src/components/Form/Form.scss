@@ -1,0 +1,20 @@
+.form {
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 40px;
+}
+
+.form__input {
+  padding: 10px;
+  border: 2px solid #000;
+  flex: 1;
+}
+
+.form__btn {
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  width: 100px;
+  cursor: pointer;
+}

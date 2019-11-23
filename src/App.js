@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.scss";
+import Form from "./components/Form/Form";
+import WeatherBlock from "./components/WeatherBlock/WeatherBlock";
+import { apiKey } from "./api_key";
 
 function App() {
+  const [weatherData, setWeatherData] = useState(null);
+  const [dataIsReady, setDataIsReady] = useState(false);
+
+  const searchLocation = location => {
+    setDataIsReady(false);
+    fetch(
+      `http://api.weatherstack.com/current?access_key=${apiKey}&query=${location}`
+    )
+      .then(res => res.json())
+      .then(res => {
+        setWeatherData(res);
+        if (res.success === false) {
+          console.log("-->", "err");
+        } else {
+          setDataIsReady(true);
+        }
+      });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <h1>Weather</h1>
+        <Form searchLocation={searchLocation} />
+        <WeatherBlock weatherData={weatherData} dataIsReady={dataIsReady} />
+      </div>
     </div>
   );
 }
